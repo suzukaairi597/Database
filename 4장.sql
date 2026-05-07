@@ -166,6 +166,139 @@ gender = 'F',
 hp = '010-1234-1012',
 regdate = NOW();
 
+# 실습 4-7
+SELECT SUM(prive) AS 매출총합 FROM Sale WHERE year = 2018 AND month = 1;
+
+# 실습 4-8
+SELECT SUM(price) AS 총합,
+       AVG(price) AS 평균
+FROM Sale
+WHERE year = 2019 AND month = 2 AND price >= 50000;
+
+# 실습 4-9
+SELECT 
+    MIN(price) AS '최저 매출', 
+    MAX(price) AS '최고 매출' 
+FROM Sale WHERE year = 2020;
+
+# 실습 4-10
+
+SELECT empno FROM Sale GROUP BY Empno; -- GROUP BY 절에서  사용한 컬럼을 SELECT 조회
+SELECT empno, year FROM Sale GROUP BY empno, year;
+
+SELECT empno, COUNT(*) AS 건수 FROM Sale GROUP BY empno;
+
+SELECT empno, year, SUM(price) AS 합계
+FROM Sale WHERE price >= 50000
+GROUP BY empno, year
+ORDER BY 합계 DESC;
+
+# 실습 4-11
+
+SELECT 
+	empno, 
+    year,
+    SUM(price) AS 합계
+FROM Sale 
+WHERE price >= 100000
+GROUP BY empno, year
+HAVING 합계 >= 200000 -- GROUP BY 결과의 조건
+ORDER BY 합계 DESC;
+
+# 실습 4-12
+
+CREATE TABLE Sale2 LIKE Sale;
+SELECT * FROM Sale2;
+INSERT INTO Sale2 SELECT * FROM Sale;
+UPDATE Sale2 SET year = year + 4;
+
+SELECT * FROM Sale
+UNION
+SELECT * FROM Sale2;
+
+SELECT 
+	empno, year, SUM(price) AS 합계
+FROM sale GROUP BY empno, year
+UNION
+SELECT 
+	empno, year, SUM(price) AS 합계
+FROM sale2 GROUP BY empno, year
+ORDER BY year ASC, 합계 DESC;
+
+
+# 실습 4-13
+
+SELECT * FROM Sale;
+SELECT * FROM Employee;
+
+SELECT * 
+	FROM Sale 
+	INNER JOIN Employee ON Sale.empno = Employee.empno;
+
+SELECT * FROM Employee JOIN Dept ON Employee.depno = Dept.depno;
+
+SELECT * FROM Sale a 
+		 JOIN Employee b
+         ON a.empno = b.empno;
+         
+SELECT * FROM Sale AS a
+			JOIN Employee AS b
+            USING (empno); -- 두 테이블의 컬럼명이 동일한 경우 USING 사용
+
+SELECT 
+	a.no, a.empno, a.price, b.name, b.job, c.dname 
+FROM Sale AS a
+	JOIN Employee AS b ON a.empno = b.empno
+    JOIN Dept AS c ON b.depno = c.depno
+WHERE price > 100000
+ORDER BY price DESC;
+
+
+# 실습 4-14
+SELECT * FROM Sale AS a
+			LEFT JOIN Example AS b
+				ON a.empno = b.empno;
+                
+SELECT * FROM Sale AS a
+			RIGHT JOIN Employee AS b
+				ON a.empno = b. empno;
+                
+#  실습 4-15
+SELECT 
+		a.empno,
+        a.name,
+        a.job,
+        b.dname,
+        FROM Employee AS a
+			JOIN Dept AS b
+				ON a. depno = b. depno;
+
+# 실습 4-16
+SELECT 
+		SUM(price) AS 매출합
+FROM Employee AS a
+JOIN Sale AS b
+ON a. depno = b. depno;
+WHERE a. name = ("김유신" AND b. year + 2019);
+
+# 실습 4-17
+
+SELECT 
+    a.empno,
+    b.name,
+    c.dname,
+    b.job,
+    a.year,
+    SUM(price) AS 매출합
+FROM Sale AS a
+JOIN Employee AS b ON a.empno = b.empno 
+JOIN Dept AS c ON b.depno = c.depno
+WHERE year = 2019 AND price >= 50000
+GROUP BY empno
+HAVING 총합 >= 100000;
+ORDER BY 매출합 DESC;
+
+
 
 
 
