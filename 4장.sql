@@ -105,11 +105,66 @@ SELECT * FROM Employee WHERE name LIKE '%신'; -- 이름이 '신'으로 끝나�
 SELECT * FROM Employee WHERE name LIKE '이_'; -- 이름이 '이'씨로 시작하는 두글자 직원
 SELECT * FROM Employee WHERE job is NULL; -- job이 NULL인 직원
 
+# 실습 4-4
+SELECT * FROM Sale ORDER BY price;
+SELECT * FROM Sale ORDER BY price ASC;
+SELECT * FROM Sale ORDER BY price DESC;
+SELECT * FROM Sale Employee ORDER BY name;
+SELECT * FROM Sale Employee ORDER BY name DESC;
+SELECT * FROM Employee ORDER BY regdate ASC;
+SELECT * FROM Sale WHERE price > 50000 ORDER BY price DESC;
+SELECT * FROM Sale
+WHERE price > 50000
+ORDER BY year DESC, month, price DESC;
 
+# 실습 4-5
+SELECT * FROM Sale LIMIT 3;
+SELECT * FROM Sale LIMIT 0, 3;
+SELECT * FROM Sale LIMIT 1, 2;
+SELECT * FROM Sale LIMIT 5, 3;
+SELECT * FROM Sale ORDER BY price DESC LIMIT 3, 5;
+SELECT * FROM Sale WHERE price < 50000 ORDER BY price DESC LIMIT 3;
+SELECT * FROM Sale
+WHERE price > 50000
+ORDER BY year DESC, month, sale DESC
+LIMIT 5;
 
+# 실습 4-6
+SELECT SUM(price) AS 합계 FROM Sale;
+SELECT AVG(price) AS 평균 FROM Sale;
+SELECT MAX(price) AS 최대값 FROM Sale;
+SELECT MIN(price) AS 최소값 FROM Sale;
+SELECT CEILING(1.2);
+SELECT CEILING(1.8); -- 울림함수
+SELECT FLOOR(1.2);
+SELECT FLOOR(1.8); -- 내림함수
+SELECT ROUND(1.2);
+SELECT ROUND(1.8);
+SELECT RAND();     -- 0 ~ 1 사이의 실수
+SELECT CEILING(RAND() * 45); -- 1 ~ 45 사이 정수
 
+SELECT * FROM Sale;
+UPDATE Sale Set price = NULL WHERE no = 3; 
+SELECT COUNT(price) AS 갯수 FROM Sale;
+SELECT COUNT(*) AS 튜플갯수 FROM Sale;
 
+SELECT LEFT('Helloworld', 5);
+SELECT RIGHT('HelloWorld', 5);
+SELECT SUBSTRING('HelloWorld', 6, 5);
 
+SELECT CONCAT('Hello', 'World');
+SELECT CONCAT(userid, name, hp) FROM Employee WHERE empno='1008';
+
+SELECT CURDATE();
+SELECT CURTIME();  
+
+SELECT NOW();
+INSERT INTO Employee SET
+empno = '1012',
+name = '을지문덕',
+gender = 'F',
+hp = '010-1234-1012',
+regdate = NOW();
 
 
 
